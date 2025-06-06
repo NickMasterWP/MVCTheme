@@ -1,0 +1,51 @@
+.wp-block {
+
+    max-width: 1140px;
+}
+
+.fc-admin-fullwidth {
+    width: 100%;
+    max-width: 100%;
+}
+
+.fc-round {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.fc-list-images .block-editor-block-list__layout {
+
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    max-width: 100%;
+    width: 1200px;
+    margin: auto;
+}
+
+.fc-h {
+    font-weight: 400;
+}
+.fc-h > strong {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 1rem;
+}
+
+
+.bo-hub {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    padding: 0px;
+}
+.bo-hub .wp-block-column:first-child {
+    border-radius: 10px;
+}
+.bo-hub .wp-block-column  {
+    padding: 1.6rem;
+}
+.bo-hub li a {
+    color: #000;
+    text-decoration: none;
+}
