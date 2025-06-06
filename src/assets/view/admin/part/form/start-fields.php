@@ -1,0 +1,1 @@
+<div class="b-fieldset <?= isset($args["class"]) ? $args["class"] : "";?>">

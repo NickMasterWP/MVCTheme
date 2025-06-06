@@ -1,0 +1,6 @@
+.repeater-items {
+    width: 100%;
+}
+.repeater-items td {
+    vertical-align: bottom;
+}
