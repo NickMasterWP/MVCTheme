@@ -107,6 +107,10 @@ trait MVCCustomizerTrait {
         return $val;
     }
 
+    public function setOption($settingName, $settingValue) : bool {
+        return set_theme_mod( "setting_" . $settingName, $settingValue );
+    }
+
     public function theOption($settingName) {
         echo $this->getOption($settingName);
     }

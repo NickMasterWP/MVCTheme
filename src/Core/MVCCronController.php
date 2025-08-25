@@ -1,5 +1,7 @@
 <?php
- 
+
+namespace MVCTheme\Core;
+
 class  MVCCronController
 {
 

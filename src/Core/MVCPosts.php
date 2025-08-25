@@ -2,6 +2,7 @@
 
 namespace MVCTheme\Core;
 
+
 class MVCPosts {
 
     public $id;
@@ -13,13 +14,13 @@ class MVCPosts {
     /**
      * @throws Exception
      */
-    static function create($status = 'publish')  {
+    static function create($status = 'publish', $userCurrent = true )  {
         $post_data = array(
             'post_title'    => "",
             'post_type'    => static::postType,
             'post_content'  => '',
             'post_status'   => $status,
-            'post_author'   => MVCUser::getCurrentUserID()
+            'post_author'   => $userCurrent ? MVCUser::getCurrentUserID() : false
         );
 
         $post_id = wp_insert_post( $post_data );

@@ -49,24 +49,6 @@ class MVCRouter {
 			$controller = "404";  
 		}
 
-        $requestUri = $_SERVER["REQUEST_URI"];
-
-        foreach ($MVCTheme->urlHandlers() as $itemUrl) {
-            if (
-                ( $itemUrl["isStrict"] && $requestUri == $itemUrl["url"] ) ||
-                ( !$itemUrl["isStrict"] && strpos( $requestUri, $itemUrl["url"]) === 0   )
-            ) {
-
-                $handler = $itemUrl["handler"];
-                if (isset($handler[0]) && isset($handler[1]) ) {
-                    $controller = $handler[0];
-                    $action = $handler[1];
-                }
-
-                $viewPath = $itemUrl["viewPath"] ?? null;
-            }
-        }
-
 		$this->controller = $controller;
 		$this->action = $action;
 		$this->params = $params;

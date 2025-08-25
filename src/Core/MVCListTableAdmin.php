@@ -1,6 +1,8 @@
 <?php
 
-class MVCListTableAdmin extends WP_List_Table
+namespace MVCTheme\Core;
+
+class MVCListTableAdmin extends \WP_List_Table
 {
 
     public function __construct(protected $name, protected $title = "") {
@@ -57,7 +59,7 @@ class MVCListTableAdmin extends WP_List_Table
         if (isset($_REQUEST["action"])) {
             switch ($_REQUEST["action"]) {
                 case "edit":
-                    echo View::admin("list-table/edit", [
+                    echo MVCView::admin("list-table/edit", [
                         "table" => $this,
                         "id" => $_REQUEST["id"]
                     ]);
@@ -69,9 +71,8 @@ class MVCListTableAdmin extends WP_List_Table
         }
 
         $this->table();
-        echo View::admin("list-table/table", [
+        echo MVCView::admin("list-table/table", [
             "table" => $this,
-
             "hasAddButton" => $this->hasAddButton(),
             "hasSearch" => $this->hasSearch(),
             "hasFilter" => count($this->getFilterFields()) > 0,
@@ -161,4 +162,11 @@ class MVCListTableAdmin extends WP_List_Table
         return "<a href='".$this->getUrlEdit($id)."'>".$name."</a>";
     }
 
+    public function beforeTable() {
+
+    }
+
+    public function afterTable() {
+
+    }
 }

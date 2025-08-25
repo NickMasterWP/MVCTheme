@@ -4,8 +4,6 @@ namespace MVCTheme\Traits;
 
 trait MVCLogTrait {
 
-    private $sidebars;
-
     private function log($level, $message) {
         $log_message = sprintf(
             "[%s] [%s] %s\n",
@@ -14,9 +12,8 @@ trait MVCLogTrait {
             $message
         );
 
-        // Записываем лог в файл
-
-        $log_file = WP_CONTENT_DIR . '/mvc.log';
+        $upload_dir = wp_upload_dir();
+        $log_file = $upload_dir['basedir'] . '/mvc.log';
         file_put_contents($log_file, $log_message, FILE_APPEND);
     }
 
@@ -28,7 +25,7 @@ trait MVCLogTrait {
         $this->log('INFO', $message);
     }
 
-    public function error($message) {
+    public function errorLog($message) {
         $this->log('ERROR', $message);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace MVCTheme\Controller\Base;
+namespace MVCTheme\Controller;
 
 use MVCTheme\Core\MVCMenu;
 use MVCTheme\Core\MVCSetting;

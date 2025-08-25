@@ -1,6 +1,8 @@
 <?php
 
-class MVCFilterPosts extends WP_Query
+namespace MVCTheme\Core;
+
+class MVCFilterPosts extends \WP_Query
 {
     protected $args;
     protected $result;
@@ -12,8 +14,17 @@ class MVCFilterPosts extends WP_Query
         parent::__construct();
     }
 
+    function getArgs(): array {
+        return $this->args;
+    }
+
     function addParam(string $name, $value) {
         $this->args[$name] = $value;
+        return $this;
+    }
+
+    function addTitle(string $value): static {
+        $this->args["title"] = $value;
         return $this;
     }
 
@@ -134,14 +145,12 @@ class MVCFilterPosts extends WP_Query
     }
 
     public function addTaxonomy(string $nameTaxonomy, array $values) {
-        // Создаем новую часть для tax_query
         $taxQuery = [
             'taxonomy' => $nameTaxonomy,
-            'field'    => 'term_id', // Фильтруем по ID термина
-            'terms'    => $values,    // Значения для фильтрации
+            'field'    => 'term_id',
+            'terms'    => $values,
         ];
 
-        // Проверяем, существует ли уже tax_query
         if (!isset($this->args['tax_query'])) {
             // Если нет, инициализируем его как массив
             $this->args['tax_query'] = [];

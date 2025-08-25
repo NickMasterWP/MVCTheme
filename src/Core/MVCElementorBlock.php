@@ -161,16 +161,35 @@ class MVCElementorBlock extends \Elementor\Widget_Base {
         return [];
     }
 
-	protected function render() {
-		$args = $this->get_settings_for_display();
-        $data = $this->getData($args);
+    protected function render() {
+        $args = $this->get_settings_for_display();
 
+        foreach ($args as $key => $value) {
+            if (is_array($value) && empty($value)) {
+                foreach ($this->fields as $field) {
+                    if ($field[0] === $key &&
+                        in_array($field[2], [
+                            self::TYPE_TEXT,
+                            self::TYPE_TEXTAREA,
+                            self::TYPE_TINY_MCE,
+                            self::TYPE_HTML,
+                            self::TYPE_SELECT,
+                            self::TYPE_SELECT2
+                        ])) {
+                        $args[$key] = '';
+                        break;
+                    }
+                }
+            }
+        }
+
+        $data = $this->getData($args);
         if (count($data)) {
             $args = array_merge($args, $data);
         }
 
-        echo MVCView::partial( $this->view_path , $args);
-	}
+        echo MVCView::partial($this->view_path, $args);
+    }
 
 }
  
