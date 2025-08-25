@@ -12,7 +12,7 @@ trait MVCModelsTrait {
 
     function registerModels() {
         foreach ($this->models as $modelName) {
-            $fileModel = $this->getThemeChildFilePath("includes/model/".$modelName.".php");
+            $fileModel = $this->getThemeChildFilePath("app/Model/".$modelName.".php");
 
             if (file_exists($fileModel)) {
                 include_once $fileModel;

@@ -1,6 +1,8 @@
 <?php
- 
-class  AjaxController
+
+namespace MVCTheme\Controller;
+
+class  MVCAjaxController
 {
     protected $error_fields;
     protected $check_fields;
@@ -21,30 +23,34 @@ class  AjaxController
         }
         $this->role = $role;
         $this->error_fields = [];
-        $this->create_fields();
+        $this->createFields();
     }
 
-    public function add_check_fields($name, $validator)
+    public function addCheckFields($name, $validator)
     {
         $this->check_fields[$name] = $validator;
     }
 
-	public function value_str($value) {
+	public function valueStr($value): string
+    {
 		if ( is_array($value) ) {
 			$res = "";
 			foreach ($value as $val) {
 				if (is_array($val)) {
-					$res .= "array";//$this->value_str($val);
+					$res .= "array";
 				} else  {
 					$res .= ($res ? "," : "") . mb_strlen($val) > 64 ? addslashes( mb_substr($val,0, 64) ) : addslashes($val) ;
 				}
 			}
 			return $res;
 		}
-		return mb_strlen($value) > 64 ? addslashes( mb_substr($value,0, 64) )."..." : addslashes($value) ;
+        if (is_string($value)) {
+            return mb_strlen($value) > 64 ? addslashes( mb_substr($value,0, 64) )."..." : addslashes($value) ;
+        }
+        return "";
 	}
 
-    static function get_param($name, $type = "string") {
+    static function getParam($name, $type = "string") {
         if (isset($_REQUEST[$name])) {
             if ($type == "int") {
                 return (int)sanitize_text_field($_REQUEST[$name]);
@@ -69,12 +75,10 @@ class  AjaxController
 				$value = "***";
 			}
 
-			$params .= ($params ? "&" : "") . addslashes($name) . '=' . $this->value_str($value);
+			$params .= ($params ? "&" : "") . addslashes($name) . '=' . $this->valueStr($value);
 		}
 
-			
         try {
-
 			if ( $this->role ) {
                 $userCurrent = wp_get_current_user();
                 if ( !$userCurrent || $userCurrent->roles[0] !== $this->role ) {
@@ -82,11 +86,7 @@ class  AjaxController
                 }
 			}
 					
-            if ($this->check_error()) {
-
-                if( !isset( $_REQUEST['nonce'] ) || !wp_verify_nonce( $_REQUEST['nonce'], 'nonce' ) ) {
-                    throw new Exception( 'Оооопс, все вышло из под контроля, попробуйте еще разок, но чуть позже?' );
-                }
+            if ($this->checkError()) {
 
                 foreach ($this->error_fields as $name => $msg) {
                     $result["fielderror"][] = (object)["field" => $name, "msg" => $msg];
@@ -107,39 +107,40 @@ class  AjaxController
         die(0);
     }
 
-    public function add_error_field($field, $msg)
+    public function addErrorField($field, $msg)
     {
         $this->error_fields[$field] = $msg;
     }
 
-    public function after_check_error() {
+    public function afterCheckError() {
     	return false;
     }
 
-    public function check_error()  {
+    public function checkError(): bool
+    {
       if ( is_array($this->check_fields)) {
         
         foreach ($this->check_fields as $name => $validator) {
         	if (!isset($_POST[$name])) {
-		        $this->add_error_field($name, "Не найден");
+		        $this->addErrorField($name, "Не найден");
 		        continue;
 	        }
             $value = $_POST[$name] ;
-            if (strpos($validator, "notempty") !== false && $value == "") {
-                $this->add_error_field($name, "Не может быть пустым");
+            if (str_contains($validator, "notempty") && $value == "") {
+                $this->addErrorField($name, "Cannot be blank");
             }
-            if (strpos($validator, "email") !== false && !is_email($value)) {
-                $this->add_error_field($name, "Емейл имеет неверный формат ");
+            if (str_contains($validator, "email") && !is_email($value)) {
+                $this->addErrorField($name, "The email is in an invalid format.");
             }
-            if (strpos($validator, "policy") !== false && $value == "") {
-                $this->add_error_field($name, "Примите пользовательское соглашение");
+            if (str_contains($validator, "policy") && $value == "") {
+                $this->addErrorField($name, "Accept the user agreement");
             }
         }
 
 
       }
 
-	    if (count($this->error_fields) > 0 || $this->after_check_error()) {
+	    if (count($this->error_fields) > 0 || $this->afterCheckError()) {
 		    return true;
 	    }
 		return false;
@@ -158,7 +159,7 @@ class  AjaxController
         return $result;
     }
 
-    public function error_fields($fields) {
+    public function errorFields($fields) {
 
         $result = [];
         foreach ($fields as $name => $msg) {

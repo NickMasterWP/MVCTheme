@@ -1,54 +1,84 @@
-/*
-    Form styles
-*/
 :root {
+    --red: #ff3535;
+    --green: #1f7e00;
+    --yellow: #ffd100;
     --gap-form-field: 10px;
-    --border-radius-form-el: 0px;
+    --border-radius-form-el: 4px;
     --bg-form-el: #fff;
-    --border-color-form-el: silver;
+    --border-color-form-el: #8c8f94;
     --padding-left-form-element: 10px;
     --height-form-input: 30px;
-    --margin-bottom-label-form: 10px;
+    --margin-bottom-label-form: 3px;
 }
-.b-fieldset {
+.mvc-color-green {
+    color: var(--green);
+}
+.mvc-color-yellow {
+    color: var(--yellow);
+}
+.mvc-color-red {
+    color: var(--red);
+}
+.mvc-color-black {
+    color: var(--black);
+}
+.mvc-form {
+    border: 1px solid #8c8f94;
+    padding: 15px;
+    background: #fff;
+    margin-top: 10px;
+}
+.mvc-fieldset {
     display: flex;
     flex-direction: column;
     gap: var(--gap-form-field);
 }
-.b-box-field {
-
-}
-.b-field-label {
+.mvc-field-label {
     font-weight: 300;
     font-size: 16px;
 }
-.b-sup-field {
+.mvc-sup-field {
     color: var(--red);
 }
-.b-field {
+.mvc-field {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    gap: var(--gap-form-field);
+    width: 100%;
 }
-.b-field__align-left {
+.mvc-field__align-left {
     align-items: flex-start;
 }
-.b-field__align-center {
+.mvc-field__align-center {
     justify-content: center;
 }
-.b-field__align-right {
+.mvc-field__align-right {
     align-items: flex-end;
 }
-.b-field-row {
+.mvc-field-row {
+    display: flex;
+    gap: 20px;
     flex-direction: row;
+    width: 100%;
 }
-.b-field__textarea > div {
+.mvc-field-row_wrap {
+    flex-wrap: wrap;
+}
+.mvc-field-grid {
+    display: grid;
+    gap: 20px;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+}
+.mvc-field_wrap {
+    width: auto;
+}
+.mvc-field__textarea > div {
     width: 100%;
 }
 /* form elements */
-.b-form-control {
+.mvc-form-control {
     background: var(--bg-form-el);
     border-radius: var(--border-radius-form-el);
     border: 1px solid var(--border-color-form-el);
@@ -57,60 +87,62 @@
     padding-left: var(--padding-left-form-element);
     display: flex;
     align-items: center;
+    background-color: #fff;
+    color: #2c3338;
 }
-.wp-core-ui select.b-form-control {
+.wp-core-ui select.mvc-form-control {
     width: 100%;
     max-width: 100%;
 }
-.b-form-control-text {
+.mvc-form-control-text {
     height: var(--height-form-input);
 }
-.b-form-control-color {
+.mvc-form-control-color {
     height: var(--height-form-input);
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.b-form-control-color input{
+.mvc-form-control-color input{
     border: 0px;
     padding: 0px;
     height: 100%;
     aspect-ratio: 1/1;
     border-radius: var(--border-radius-form-el);
 }
-.b-form-control-color input::-webkit-color-swatch {
+.mvc-form-control-color input::-webkit-color-swatch {
     border-radius: var(--border-radius-form-el);
 }
-.b-form-control-copy {
+.mvc-form-control-copy {
     padding-top: 5px;
     padding-bottom: 5px;
     line-height: 1.4;
 }
-.b-form-control-text-block {
+.mvc-form-control-text-block {
     padding-top: 10px;
     padding-bottom: 10px;
 }
-.b-form-control-copy {
+.mvc-form-control-copy {
     justify-content: space-between;
     align-items: flex-end;
 }
-.b-form-control-link {
+.mvc-form-control-link {
     height: var(--height-form-input);
     justify-content: space-between;
     padding-right: var(--padding-left-form-element);
 }
-.b-form-control-link-span {
+.mvc-form-control-link-span {
     max-width: 90%;
     display: block;
     overflow: hidden;
 }
-.b-form-control-select {
+.mvc-form-control-select {
     height: var(--height-form-input);
 }
-.b-field-label {
+.mvc-field-label {
     margin-bottom: var(--margin-bottom-label-form);
 }
-.b-field__image {
+.mvc-field__image {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -118,13 +150,13 @@
     flex-direction: row;
 }
 /*
-.b-meta-box {
+.mvc-meta-box {
     border: 1px solid #0003;
     padding: 20px 20px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
 }
 */
-.b-field-image-container {
+.mvc-field-image-container {
     max-width: 100px;
     max-height: 100px;
     display: flex;
@@ -132,29 +164,23 @@
     justify-content: flex-start;
     overflow: hidden;
 }
-.b-field-image {
+.mvc-field-image {
     display: flex;
     gap: 10px;
     align-items: center;
 }
-.b-field-image-container img {
+.mvc-field-image-container img {
     max-width: 100%;
     max-height: 100%;
 }
-
-.a-field-image-hide {
-    display: none;
-}
-
-
-.b-field__video {
+.mvc-field__video {
     display: flex;
     gap: 10px;
     align-items: center;
     justify-content: flex-start;
     flex-direction: row;
 }
-.b-field-video-container {
+.mvc-field-video-container {
     max-width: 100px;
     max-height: 100px;
     display: flex;
@@ -162,16 +188,46 @@
     justify-content: flex-start;
     overflow: hidden;
 }
-.b-field-video {
+.mvc-field-video {
     display: flex;
     gap: 10px;
     align-items: center;
 }
-.b-field-video-container img {
+.mvc-field-video-container img {
     max-width: 100%;
     max-height: 100%;
 }
 
-.a-field-video-hide {
-    display: none;
+.is-invalid {
+    border-color: var(--red) !important;
+}
+.invalid-feedback {
+    color: var(--red) !important;
+}
+
+.form__loading {
+    position: relative;
+    overflow: hidden;
+}
+.form__loading::before {
+    filter: blur(5px);
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:  100%;
+    background: rgba(255,255,255,0.5);
+}
+
+.form__loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--premium), transparent);
+    animation: loading 1s infinite;
+    filter: none;
 }

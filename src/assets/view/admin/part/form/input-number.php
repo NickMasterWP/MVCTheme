@@ -6,6 +6,6 @@
         <?php } ?>
     </div>
     <div class="b-field b-field__input ">
-       <input class="b-form-control" type="number" name="<?= $args["name"];?>" value="<?= isset($args["required"]) ? $args["value"] : "";?>" placeholder="<?= isset($args["placeholder"]) ? $args["placeholder"] : "";?>" >
+       <input class="b-form-control" type="number" name="<?= $args["name"];?>" value="<?= $args["value"] ?? "";?>" placeholder="<?= isset($args["placeholder"]) ? $args["placeholder"] : "";?>" >
     </div>
 </div>

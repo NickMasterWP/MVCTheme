@@ -77,14 +77,14 @@ class  APIController
 		        continue;
 	        }
             $value = $_REQUEST[$name] ;
-            if (strpos($validator, "notempty") !== false && $value == "") {
-                $this->add_error_field($name, "Не может быть пустым");
+            if (str_contains($validator, "notempty") && $value == "") {
+                $this->addErrorField($name, "Cannot be blank");
             }
-            if (strpos($validator, "email") !== false && !is_email($value)) {
-                $this->add_error_field($name, "Емейл имеет неверный формат ");
+            if (str_contains($validator, "email") && !is_email($value)) {
+                $this->addErrorField($name, "The email is in an invalid format.");
             }
-            if (strpos($validator, "policy") !== false && $value == "") {
-                $this->add_error_field($name, "Примите пользовательское соглашение");
+            if (str_contains($validator, "policy") && $value == "") {
+                $this->addErrorField($name, "Accept the user agreement");
             }
         }
 

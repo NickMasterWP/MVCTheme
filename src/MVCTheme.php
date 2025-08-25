@@ -5,6 +5,7 @@ namespace MVCTheme;
 use MVCTheme\Core\MVCElementorExtension;
 use MVCTheme\Traits\MVCCronTrait;
 use MVCTheme\Traits\MVCElementorTrait;
+use MVCTheme\Traits\MVCLogTrait;
 use MVCTheme\Traits\MVCMenuAdminPanelTrait;
 use MVCTheme\Traits\MVCModelsTrait;
 use MVCTheme\Traits\MVCPostTypeTrait;
@@ -53,6 +54,7 @@ class MVCTheme {
     use MVCMenuAdminPanelTrait;
     use MVCElementorTrait;
     use MVCUrlHandlerTrait;
+    use MVCLogTrait;
 
     const CRON_INTERVAL_MINUTES = "minutes";
     const CRON_INTERVAL_DAILY = "daily";
@@ -106,7 +108,7 @@ class MVCTheme {
         add_filter('login_headerurl', fn() => get_home_url());
         add_filter('login_headertext', fn() => false);
         add_filter('category_link', fn($a) => str_replace('category/', '', $a), 99);
-
+        add_action('template_redirect', [$this, 'runUrlHandlers']);
 
         $this->initializeRestApi();
         $this->initializeSidebars();
@@ -128,4 +130,5 @@ class MVCTheme {
             include_once $runFile;
         }
     }
+
 }

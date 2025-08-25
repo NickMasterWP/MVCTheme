@@ -51,12 +51,17 @@ class MVCUtils {
 
     static function bdAddPeriodToDate($date, $period) {
         if ($date === 'now') {
-            $date = current_time('mysql');
+            $date = self::bd_time();
         }
 
-        $dateTime = new DateTime($date);
-        $dateTime->modify($period);
-        return date_i18n("Y-m-d H:i:s", $dateTime->getTimestamp());
+        try {
+            $dateTime = new \DateTime($date);
+            $dateTime->modify($period);
+            return date_i18n("Y-m-d H:i:s", $dateTime->getTimestamp());
+        } catch (\Exception $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
 
 	static function get_padej($val, $args = array(" часов"," час"," часа")) {

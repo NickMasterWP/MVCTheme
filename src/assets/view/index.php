@@ -1,3 +1,8 @@
+<?php
+
+use MVCTheme\Core\MVCView;
+
+?>
 <!doctype html>
 <html prefix="og: http://ogp.me/ns#" lang="ru">
 <head>
@@ -12,11 +17,11 @@
 
     <div id="main-wrapper" class="main-wrapper">
 
-        <?= View::layout("header", ["menu" => $menu, "setting" => $setting ] );?>
+        <?= MVCView::layout("header", ["menu" => $menu, "setting" => $setting ] );?>
 
         <?= $content;?>
 
-        <?php  echo View::layout("footer", ["menu" => $menu, "setting" => $setting ] );?>
+        <?= MVCView::layout("footer", ["menu" => $menu, "setting" => $setting ] );?>
 
     </div>
 

@@ -1,5 +1,9 @@
 <?php
 
+namespace MVCTheme\Core;
+
+use WP_User;
+
 class MVCUser extends WP_User
 {
 
