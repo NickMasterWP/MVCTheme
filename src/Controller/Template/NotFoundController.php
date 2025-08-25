@@ -2,7 +2,7 @@
 
 namespace MVCTheme\Controller\Template;
 
-use MVCTheme\Controller\Base\MVCBaseController;
+use MVCTheme\Controller\MVCBaseController;
 
 class NotFoundController  extends MVCBaseController {
 
