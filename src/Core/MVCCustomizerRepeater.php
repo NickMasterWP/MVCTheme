@@ -1,6 +1,6 @@
 <?php
 
-namespace MVCTheme\Classes;
+namespace MVCTheme\Core;
 
 if ( ! class_exists( 'WP_Customize_Control' ) ) {
 	return null;
