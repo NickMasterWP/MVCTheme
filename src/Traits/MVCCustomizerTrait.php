@@ -2,7 +2,7 @@
 
 namespace MVCTheme\Traits;
 
-use MVCTheme\Classes\MVCCustomizerRepeater;
+use MVCTheme\Core\MVCCustomizerRepeater;
 
 trait MVCCustomizerTrait {
 
