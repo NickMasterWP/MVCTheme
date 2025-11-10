@@ -29,7 +29,6 @@ trait MVCMenuAdminPanelTrait {
             $className = $menu["nameAdminPageController"];
             $controller = null;
             if ($className) {
-
                 $file = $this->getThemeChildFilePath("app/Controller/AdminPage/".$className.".php");
 
                 if (file_exists($file)) {

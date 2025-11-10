@@ -104,7 +104,12 @@ trait MVCCustomizerTrait {
         if ($val === false && isset($this->optionsCustomizer[$settingName])) {
             $val = $this->optionsCustomizer[$settingName]["default"];
         }
-        return $val;
+
+        if ($val && isset($this->optionsCustomizer[$settingName]) && $this->optionsCustomizer[$settingName]["type"] === "repeat") {
+            $val = json_decode($val, JSON_UNESCAPED_UNICODE);
+        }
+
+        return stripslashes($val);
     }
 
     public function setOption($settingName, $settingValue) : bool {

@@ -20,6 +20,24 @@ trait MVCPostTypeTrait {
         return $this->postTypes;
     }
 
+    /**
+     * Позволяет добавить дополнительный статус для уже добавленного или существующего типа записи.
+     */
+    public function addPostStatus(string $postType, string $status, string $title)
+    {
+        if (!isset($this->postTypes[$postType])) {
+            $this->postTypes[$postType] = [
+                "name" => ucfirst($postType),
+                "taxonomies" => [],
+                "supports" => ['title'],
+                "statuses" => [],
+                "public" => true
+            ];
+        }
+
+        $this->postTypes[$postType]['statuses'][$status] = $title;
+    }
+
     public function registerPostTypes() {
         foreach ($this->postTypes as $postType => $options) {
             $this->registerPostType($postType, $options["name"], $options["supports"], $options["public"]);
@@ -70,20 +88,23 @@ trait MVCPostTypeTrait {
             'show_in_admin_all_list'    => true,
             'show_in_admin_status_list' => true,
             'show_in_front'             => true,
-            'label_count'               => _n_noop($status.' <span class="count">(%s)</span>', $status.' <span class="count">(%s)</span>'),
+            'label_count'               => _n_noop($title.' <span class="count">(%s)</span>', $title.' <span class="count">(%s)</span>'),
         ));
     }
 
     public function addPostStatusToType($postType, $status, $title) {
+
         add_action('post_submitbox_misc_actions', function() use ($postType, $status, $title) {
             global $post, $post_type;
             if ($post_type === $postType) {
                 $complete = $post->post_status === $status ? ' selected="selected"' : '';
                 echo "<script>
-                    jQuery(document).ready(function($){
+                jQuery(document).ready(function($){
+                    if ($('#post_status option[value=\"$status\"]').length === 0) {
                         $('select#post_status').append('<option value=\"$status\"$complete>$title</option>');
-                    });
-                </script>";
+                    }
+                });
+            </script>";
             }
         });
 
@@ -93,6 +114,31 @@ trait MVCPostTypeTrait {
             }
             return $states;
         }, 10, 2);
+
+        add_filter("views_edit-$postType", function($views) use ($postType, $status, $title) {
+            global $wpdb;
+
+            $count = $wpdb->get_var("
+        SELECT COUNT(1)
+        FROM {$wpdb->posts}
+        WHERE post_type = 'product'
+        AND post_status = '$status'
+    ");
+
+            $class = (isset($_GET['post_status']) && $_GET['post_status'] === $status) ? 'current' : '';
+            $link = '<li class="awaiting"><a href="edit.php?post_status='.$status.'&post_type=product" class="' . $class . '">'
+                . __($title, 'mvctheme') . ' <span class="count">(' . $count . ')</span></a></li>';
+
+            $new_views = [];
+            foreach ($views as $key => $view) {
+                $new_views[$key] = $view;
+                if ($key === 'publish') {
+                    $new_views[$status] = $link;
+                }
+            }
+
+            return $new_views;
+        });
     }
 
 }

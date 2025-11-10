@@ -23,13 +23,16 @@ use MVCTheme\MVCTheme;
             <?php foreach ($table->getFilterFields() as $field) { ?>
                 <?= MVCTheme::printField($field, $_REQUEST[$field["name"]] ?? "");?>
             <?php } ?>
-            <?= MVCView::adminPart("form/button", [
-                "name" => "submit",
-                "type" => "submit",
-                "label" => "",
-                "required" => false,
-                "value" => __("Filter","mvctheme")
-            ]);?>
+            <div class="filter-submit">
+                <?= MVCView::adminPart("form/button", [
+                    "name" => "submit",
+                    "type" => "submit",
+                    "label" =>  "",
+                    "required" => false,
+                    "value" => __("Filter","mvctheme")
+                ]);?>
+            </div>
+
         </div>
     </form>
 </div>

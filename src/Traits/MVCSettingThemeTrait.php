@@ -13,7 +13,7 @@ trait MVCSettingThemeTrait {
         $this->version = $version;
     }
 
-    private function getVersion() {
+    public function getVersion() {
         return $this->version;
     }
 
