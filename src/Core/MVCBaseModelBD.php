@@ -1,5 +1,9 @@
 <?php
 
+namespace MVCTheme\Core;
+
+use Exception;
+
 class MVCBaseModelBD  {
 
     protected $id;

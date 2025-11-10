@@ -45,6 +45,10 @@ class MVCUtils {
 	static function bd_time() {
 		return date_i18n("Y-m-d H:i:s",  true );
 	}
+    static function bd_date() {
+        return date_i18n("Y-m-d",  true );
+    }
+
 	static function bd_time_value($time) {
 		return date_i18n("Y-m-d H:i:s",  $time );
 	}

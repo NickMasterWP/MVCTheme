@@ -71,11 +71,14 @@ class MVCListTableAdmin extends \WP_List_Table
         }
 
         $this->table();
+
         echo MVCView::admin("list-table/table", [
             "table" => $this,
             "hasAddButton" => $this->hasAddButton(),
             "hasSearch" => $this->hasSearch(),
             "hasFilter" => count($this->getFilterFields()) > 0,
+            "beforeTable" => $this->beforeTable(),
+            "afterTable" => $this->afterTable(),
         ]);
 
     }
@@ -100,7 +103,9 @@ class MVCListTableAdmin extends \WP_List_Table
 
         $res = [];
         foreach ($fields as $field) {
-            $res[$field["name"]] = [$field["name"], $field["sort"] ?? false];
+            if (isset($field["sort"]) and $field["sort"]) {
+                $res[$field["name"]] = [$field["name"], $field["sort"] ?? false];
+            }
         }
 
         return $res;
@@ -169,4 +174,6 @@ class MVCListTableAdmin extends \WP_List_Table
     public function afterTable() {
 
     }
+
+
 }
