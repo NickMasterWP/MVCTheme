@@ -109,7 +109,11 @@ trait MVCCustomizerTrait {
             $val = json_decode($val, JSON_UNESCAPED_UNICODE);
         }
 
-        return stripslashes($val);
+        if (is_string($val)) {
+            return stripslashes($val);
+        }
+
+        return "";
     }
 
     public function setOption($settingName, $settingValue) : bool {
@@ -140,5 +144,15 @@ trait MVCCustomizerTrait {
             return json_encode($input_decoded);
         }
         return $input;
+    }
+
+    public function getOptionStripSlashes($settingName) {
+        $val = $this->getOption($settingName);
+
+        if (is_string($val)) {
+            return stripslashes($val);
+        }
+
+        return $val;
     }
 }

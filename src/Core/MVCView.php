@@ -28,6 +28,8 @@ class MVCView {
             ${$key} = $value;
         }
 
+        $MVCTheme = MVCTheme::getInstance();
+
         $pathView = 'assets/view/'.$pathView;
         $paths = [
             self::pathChild($pathView),
