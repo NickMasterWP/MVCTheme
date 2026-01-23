@@ -84,7 +84,7 @@ class MVCElementorBlock extends \Elementor\Widget_Base {
         break; 
       case self::TYPE_ICON:
         $type = \Elementor\Controls_Manager::ICON; 
-        break;:
+        break;
     case self::TYPE_COLOR:
         $type = \Elementor\Controls_Manager::COLOR;
         $params_extension = [
