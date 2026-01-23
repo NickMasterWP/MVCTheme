@@ -61,7 +61,10 @@ class  MVCAjaxController
             if ($type == "html") {
                 return $_REQUEST[$name];
             }
-            return wp_kses_post($_REQUEST[$name]);
+            if (is_string($_REQUEST[$name])) {
+                return wp_kses_post($_REQUEST[$name]);
+            }
+            return  $_REQUEST[$name];
         }
         return false;
     }
