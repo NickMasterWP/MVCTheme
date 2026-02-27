@@ -113,7 +113,7 @@ trait MVCCustomizerTrait {
             return stripslashes($val);
         }
 
-        return "";
+        return $val;
     }
 
     public function setOption($settingName, $settingValue) : bool {
