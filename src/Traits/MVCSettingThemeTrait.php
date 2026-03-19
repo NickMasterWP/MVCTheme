@@ -6,15 +6,9 @@ use MVCTheme\Core\MVCSetting;
 
 trait MVCSettingThemeTrait {
 
-    var $version = '1.0.0';
-
-    public function setVersion($version)
+    public function getVersion(): string
     {
-        $this->version = $version;
-    }
-
-    public function getVersion() {
-        return $this->version;
+        return wp_get_theme()->get('Version');
     }
 
     static function errorReporting($active = false) {
