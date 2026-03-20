@@ -8,12 +8,13 @@ trait MVCUrlHandlerTrait {
 
     private $urlHandler = [];
 
-    function addUrlHandler(string $url, $handler, bool $isStrict = false, string $viewPath = "") {
+    function addUrlHandler(string $url, $handler, bool $isStrict = false, string $viewPath = "", string $matchType = "prefix") {
         $this->urlHandler[] = [
-            "url" => $url,
-            "handler" => $handler,
-            "isStrict" => $isStrict,
-            "viewPath" => $viewPath
+            "url"       => $url,
+            "handler"   => $handler,
+            "isStrict"  => $isStrict,
+            "viewPath"  => $viewPath,
+            "matchType" => $matchType,
         ];
     }
 
@@ -43,39 +44,37 @@ trait MVCUrlHandlerTrait {
         $MVCTheme = MVCTheme::getInstance();
 
         foreach ($MVCTheme->urlHandlers() as $itemUrl) {
-            if (
-                ( $itemUrl["isStrict"] && $requestUri == $itemUrl["url"] ) ||
-                ( !$itemUrl["isStrict"] && strpos( $requestUri, $itemUrl["url"]) === 0   )
-            ) {
+            $matchType = $itemUrl["matchType"] ?? "prefix";
 
-                $handler = $itemUrl["handler"];
-                if (isset($handler[0]) && isset($handler[1]) ) {
-                    $controllerName = $handler[0];
-                    $actionMethod = $handler[1];
+            $matched = match($matchType) {
+                "strict"   => $requestUri === $itemUrl["url"],
+                "contains" => strpos($requestUri, $itemUrl["url"]) !== false,
+                default    => strpos($requestUri, $itemUrl["url"]) === 0,
+            };
 
+            if (!$matched) continue;
 
-                    $pathController = "Controller/UrlHandler/";
-                    $controllerFile = $pathController . $handler[0] . ".php";
-                    $controllerPathFile = $this->locateControllerFile($MVCTheme, $controllerFile);
+            $handler = $itemUrl["handler"];
+            if (!isset($handler[0]) || !isset($handler[1])) continue;
 
-                    include_once $controllerPathFile;
+            $controllerName = $handler[0];
+            $actionMethod   = $handler[1];
 
-                    if (!class_exists($controllerName)) {
-                        continue;
-                    }
+            $pathController  = "Controller/UrlHandler/";
+            $controllerFile  = $pathController . $handler[0] . ".php";
+            $controllerPathFile = $this->locateControllerFile($MVCTheme, $controllerFile);
 
-                    $controller = new $controllerName();
-                    if (!method_exists($controller, $actionMethod)) {
-                        continue;
-                    }
+            include_once $controllerPathFile;
 
-                    header("HTTP/1.1 200 OK");
-                    $controller->{$actionMethod}();
+            if (!class_exists($controllerName)) continue;
 
-                    break;
-                }
+            $controller = new $controllerName();
+            if (!method_exists($controller, $actionMethod)) continue;
 
-            }
+            header("HTTP/1.1 200 OK");
+            $controller->{$actionMethod}();
+
+            break;
         }
     }
 
