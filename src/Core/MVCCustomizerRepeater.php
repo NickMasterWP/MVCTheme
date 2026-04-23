@@ -131,7 +131,11 @@ class MVCCustomizerRepeater extends WP_Customize_Control {
                             $this->input_control($options, $value_field);
                         } else if ( $options["type"] == "textarea"  ) {
                             $this->textarea_control($options, $value_field);
-                        } else if ( $options["type"] == "repeat"  ) {
+                        } else if ( $options["type"] == "image"  ) {
+                            $this->image_control($options, $value_field);
+                        } else if ( $options["type"] == "color"  ) {
+                            $this->color_control($options, $value_field);
+                        }  else if ( $options["type"] == "repeat"  ) {
                             $this->repeater_control($options, $value_field);
                         }
 
@@ -167,13 +171,10 @@ class MVCCustomizerRepeater extends WP_Customize_Control {
     <?php }
 
     private function image_control($options = '', $value = ''){ ?>
-        <div class="customizer-repeater-image-control">
-					<span class="customize-control-title">
-                <?= $options['title']  ; ?>
-            </span>
-            <input type="text" class="widefat custom-media-url" name="<?= $options['name']  ; ?>" value="<?= esc_attr( $value ); ?>">
-            <input type="button" class="button button-secondary customizer-repeater-custom-media-button" value="<?php esc_attr_e( 'Upload Image','your-textdomain' ); ?>" />
-        </div>
+        <span class="customize-control-title"><?= $options['title']  ; ?></span>
+        <input type="text" class="customizer-repeater-text-control customizer-repeater-value   custom-media-url" name="<?= $options['name']  ; ?>" value="<?= esc_attr( $value ); ?>">
+        <input type="button" class="button button-secondary customizer-repeater-custom-media-button" value="<?php esc_attr_e( 'Upload Image','your-textdomain' ); ?>" />
+
         <?php
     }
 
