@@ -5,13 +5,13 @@ namespace MVCTheme;
 use MVCTheme\Core\MVCElementorExtension;
 use MVCTheme\Traits\MVCCronTrait;
 use MVCTheme\Traits\MVCElementorTrait;
-use MVCTheme\Traits\MVCLogTrait;
 use MVCTheme\Traits\MVCMenuAdminPanelTrait;
+use MVCTheme\Traits\MVCMetaBoxesTaxonomyTrait;
 use MVCTheme\Traits\MVCModelsTrait;
 use MVCTheme\Traits\MVCPostTypeTrait;
 use MVCTheme\Traits\MVCTaxonomyTrait;
 use MVCTheme\Traits\MVCCustomColumnsTrait;
-use MVCTheme\Traits\MVCMetaBoxesTrait;
+use MVCTheme\Traits\MVCMetaBoxesPostsTrait;
 use MVCTheme\Traits\MVCUrlHandlerTrait;
 use MVCTheme\Traits\MVCUserFieldsTrait;
 use MVCTheme\Traits\MVCAssetsTrait;
@@ -37,7 +37,8 @@ class MVCTheme {
     use MVCPostTypeTrait;
     use MVCTaxonomyTrait;
     use MVCCustomColumnsTrait;
-    use MVCMetaBoxesTrait;
+    use MVCMetaBoxesPostsTrait;
+    use MVCMetaBoxesTaxonomyTrait;
     use MVCUserFieldsTrait;
     use MVCAssetsTrait;
     use MVCRoleTrait;
@@ -54,7 +55,6 @@ class MVCTheme {
     use MVCMenuAdminPanelTrait;
     use MVCElementorTrait;
     use MVCUrlHandlerTrait;
-    use MVCLogTrait;
 
     const CRON_INTERVAL_MINUTES = "minutes";
     const CRON_INTERVAL_DAILY = "daily";
@@ -103,16 +103,17 @@ class MVCTheme {
         add_action('admin_init', [$this, 'adminInit'], 1000);
 
         add_filter('upload_mimes', [$this, 'uploadMimes']);
-        add_filter('wp_check_filetype_and_ext', [$this, 'fixSvgMimeType'], 10, 5);
-        add_filter('wp_prepare_attachment_for_js', [$this, 'showSvgInMediaLibrary']);
+        add_filter('wp_check_filetype_and_ext', [$this, 'fixCustomMimeType'], 10, 5);
+        add_filter('wp_prepare_attachment_for_js', [$this, 'showCustomInMediaLibrary']);
         add_filter('login_headerurl', fn() => get_home_url());
         add_filter('login_headertext', fn() => false);
         add_filter('category_link', fn($a) => str_replace('category/', '', $a), 99);
-        add_action('template_redirect', [$this, 'runUrlHandlers']);
+
 
         $this->initializeRestApi();
         $this->initializeSidebars();
         $this->initializeMetaboxComments();
+        $this->initializeMetaboxTaxonomy();
         $this->initializeCron();
         $this->customColumnInit();
         $this->actionHooksInit();
@@ -130,5 +131,4 @@ class MVCTheme {
             include_once $runFile;
         }
     }
-
 }

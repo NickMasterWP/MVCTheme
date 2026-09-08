@@ -4,37 +4,31 @@ namespace MVCTheme\Traits;
 
 trait MVCLogTrait {
 
-    private function log($level, $message, $logFileName = "mvc.log") {
+    private $sidebars;
+
+    private function log($level, $message) {
         $log_message = sprintf(
-            "[%s] [%s] [%s] %s\n",
-            getmypid(),
+            "[%s] [%s] %s\n",
             current_time('mysql'),
             strtoupper($level),
             $message
         );
 
-        $upload_dir = wp_upload_dir();
-        $log_file = $upload_dir['basedir'] . '/'.$logFileName;
+        // Записываем лог в файл
+
+        $log_file = WP_CONTENT_DIR . '/mvc.log';
         file_put_contents($log_file, $log_message, FILE_APPEND);
     }
 
     public function debug($message) {
-        $this->log("DEBUG", $message);
-    }
-
-    public function debugFile($message, $logFileName) {
-        $this->log("DEBUG", $message, $logFileName);
+        $this->log('DEBUG', $message);
     }
 
     public function info($message) {
         $this->log('INFO', $message);
     }
 
-    public function errorLog($message) {
+    public function error($message) {
         $this->log('ERROR', $message);
-    }
-
-    public function errorLogFile($message, $logFileName) {
-        $this->log('ERROR', $message, $logFileName);
     }
 }

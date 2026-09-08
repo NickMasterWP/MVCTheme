@@ -27,16 +27,13 @@ trait MVCMenuAdminPanelTrait {
         foreach ($this->menuAdminPanel as $menu) {
 
             $className = $menu["nameAdminPageController"];
-            $controller = null;
-            if ($className) {
-                $file = $this->getThemeChildFilePath("app/Controller/AdminPage/".$className.".php");
+            $file = $this->getThemeChildFilePath("includes/controller/admin-page/".$className.".php");
 
-                if (file_exists($file)) {
-                    include_once $file;
-                    $controller = new $className($menu["slug"], $menu["title"]);
-                } else {
-                    continue;
-                }
+            if (file_exists($file)) {
+                include_once $file;
+                $controller = new $className($menu["slug"], $menu["name"]);
+            } else {
+                continue;
             }
 
             if ($menu["slugParent"]) {
@@ -46,7 +43,7 @@ trait MVCMenuAdminPanelTrait {
                     $menu["name"],
                     $menu["capability"],
                     $menu["slug"],
-                    $controller ? [$controller, "run"] : false
+                    [$controller, "run"]
                 );
             } else {
                 add_menu_page(
@@ -54,7 +51,7 @@ trait MVCMenuAdminPanelTrait {
                     $menu["name"],
                     $menu["capability"],
                     $menu["slug"],
-                    $controller ? [$controller, "run"] : false,
+                    [$controller, "run"],
                     $menu["icon"],
                     $menu["position"]
                 );

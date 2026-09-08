@@ -1,7 +1,5 @@
 <?php
 
-namespace MVCTheme\Core;
-
 class MVCHook {
 
     static function run() {

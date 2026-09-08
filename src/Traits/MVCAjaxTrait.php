@@ -20,13 +20,12 @@ trait MVCAjaxTrait {
             $role = $param["role"];
             $type = $param["type"];
 
-            $fileAction = $this->getThemeChildFilePath("app/Controller/Ajax/" . $moduleFileName . ".php");
+            $fileAction = $this->getThemeChildFilePath("includes/controller/ajax/" . $moduleFileName . ".php");
 
             if (file_exists($fileAction)) {
                 include_once $fileAction;
+
                 $actionInstance = new $moduleFileName($ajaxActionName, $type, $role);
-            } else {
-                echo $fileAction." not found";
             }
         }
     }

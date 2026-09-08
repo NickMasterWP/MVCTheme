@@ -2,10 +2,6 @@
 
 namespace MVCTheme\Core;
 
-use Exception;
-use MVCTheme\MVCTheme;
-use PHPMailer\PHPMailer\PHPMailer;
-
 class MVCSendEmail {
 
     public static function subscribe_from_name() {
@@ -18,10 +14,7 @@ class MVCSendEmail {
         return $MVCTheme->getOption("from_email");
     }
 
-    /**
-     * @throws \PHPMailer\PHPMailer\Exception
-     */
-    public static function send($from_email, $from_name, $to_email, $subject, $message, $attachments = [], $is_html = false ) {
+    public static function send( $from_email, $from_name, $to_email, $subject, $message, $attachments = [], $is_html = false ) {
 /*
         var_dump("from_email: ".$from_email);
         var_dump("from_name: ".$from_name);
@@ -34,7 +27,7 @@ class MVCSendEmail {
         }
 
 
-        $mailer = new PHPMailer();
+        $mailer = new PHPMailer\PHPMailer\PHPMailer();
         $mailer->SetFrom($from_email, $from_name); //Name is optional
         $mailer->Subject   = $subject;
         $mailer->Body      = $message;
@@ -59,7 +52,7 @@ class MVCSendEmail {
 
 	public static function getTemplate($nameTemplate, $params, $is_html) {
 
-        $MVCTheme = MVCTheme::getInstance();
+        global $MVCTheme;
 
         $params = array_merge([
             'site_url' => home_url(),
@@ -67,16 +60,16 @@ class MVCSendEmail {
             'theme_parent_url' => $MVCTheme->getThemeParentFileURL(""),
         ], $params);
 
-        $text = MVCView::email($nameTemplate, $params);
+        $text = View::email($nameTemplate, $params);
         $text = apply_filters("mvc_get_email_template_text", $text, $nameTemplate, $params, $is_html);
 
         $params["text"] = $text;
-        $params["setting"] = $MVCTheme->getOptions();
+        $params["setting"] = $MVCTheme->getSetting();
 
         if ( $is_html ) {
-            $html = MVCView::email("index_html", $params);
+            $html = View::email("index_html", $params);
         } else {
-            $html = MVCView::email("index", $params);
+            $html = View::email("index", $params);
         }
         return $html;
 
@@ -87,23 +80,23 @@ class MVCSendEmail {
         $fromEmail = $MVCTheme->getOption("from_email");
         $fromName = $MVCTheme->getOption("from_name");
 
-        return MVCSendEmail::send( $fromEmail, $fromName, $email, $subject, $body, $attachment, $is_html);
+        return SendEmail::send( $fromEmail, $fromName, $email, $subject, $body, $attachment, $is_html);
     }
 
     /**
      * @throws Exception
      */
     public static function sendTemplate($template, $params, $email, $subject, $attachment = [], $is_html = true) {
-        $MVCTheme = MVCTheme::getInstance();
+        global $MVCTheme;
 
         $params["emailLogo"] = $MVCTheme->getOption("email_logo");
         $params["emailColorButton"] = $MVCTheme->getOption("email_color_button");
         $params["emailContact"] = $MVCTheme->getOption("email_contact");
         $params["emailAddress"] = $MVCTheme->getOption("email_address");
 
-		$html = self::getTemplate($template, $params, $is_html);
+		$html = SendEmail::getTemplate($template, $params, $is_html);
 
-		return self::sendFromSite( $email, $subject, $html, $attachment, $is_html);
+		return SendEmail::sendFromSite( $email, $subject, $html, $attachment, $is_html);
 	}
 
 
@@ -111,7 +104,7 @@ class MVCSendEmail {
      * @throws Exception
      */
     public static function sendSubscribeTemplate($template, $params, $from_email, $from_name, $email, $subject, $attachment = [], $is_html = true) {
-		return self::sendTemplate("subscribe/".$template, $params,  $from_email, $from_name, $email, $subject, $attachment, $is_html );
+		return SendEmail::sendTemplate("subscribe/".$template, $params,  $from_email, $from_name, $email, $subject, $attachment, $is_html );
 	}
 
     static function sendEmailToRole($role, $template, $params, $subject, $attachment = [], $isHtml = true)
@@ -124,7 +117,7 @@ class MVCSendEmail {
 
         foreach ($users as $user) {
             try {
-                self::sendTemplate(
+                SendEmail::sendTemplate(
                     $template,
                     $params,
                     $user->user_email,
@@ -140,7 +133,7 @@ class MVCSendEmail {
 
     static function sendEmailToAdministrators($template, $params, $subject, $attachment = [], $isHtml = true)
     {
-        self::sendEmailToRole("administrator", $template, $params, $subject, $attachment = [], $isHtml);
+        SendEmail::sendEmailToRole("administrator", $template, $params, $subject, $attachment = [], $isHtml);
     }
 
 }

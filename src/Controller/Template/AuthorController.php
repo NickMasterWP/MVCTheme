@@ -1,8 +1,6 @@
 <?php
 
-use MVCTheme\Controller\MVCBaseController;
-
-class AuthorController extends MVCBaseController {
+class AuthorController extends BaseController {
 	
 	function indexAction() {
 	}

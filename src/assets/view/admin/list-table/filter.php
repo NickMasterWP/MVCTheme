@@ -1,9 +1,7 @@
 <?php /**
  * @var MarketingReportsController $table
  */
-use MVCTheme\Core\MVCView;
-use MVCTheme\MVCTheme;
-
+global $MVCTheme;
 ?>
 <style>
     .filter-fields {
@@ -21,18 +19,15 @@ use MVCTheme\MVCTheme;
         <input type="hidden" name="page" value="<?= $table->getPageName();?>">
         <div class="filter-fields">
             <?php foreach ($table->getFilterFields() as $field) { ?>
-                <?= MVCTheme::printField($field, $_REQUEST[$field["name"]] ?? "");?>
+                <?= $MVCTheme::printField($field, $_REQUEST[$field["name"]] ?? "");?>
             <?php } ?>
-            <div class="filter-submit">
-                <?= MVCView::adminPart("form/button", [
-                    "name" => "submit",
-                    "type" => "submit",
-                    "label" =>  "",
-                    "required" => false,
-                    "value" => __("Filter","mvctheme")
-                ]);?>
-            </div>
-
+            <?= View::adminPart("form/button", [
+                "name" => "submit",
+                "type" => "submit",
+                "label" => "",
+                "required" => false,
+                "value" => "Фильтр"
+            ]);?>
         </div>
     </form>
 </div>

@@ -69,8 +69,9 @@ trait MVCCronTrait {
 
     private function executeCronJob($className) {
 
-        $MVCTheme = MVCTheme::getInstance();
-        $fileCron = $this->getThemeChildFilePath("app/Controller/Cron/".$className.".php");
+        $fileCron = $this->getThemeChildFilePath("includes/controller/cron/".$className.".php");
+
+        global $MVCTheme;
 
         if (file_exists($fileCron)) {
             include_once $fileCron;

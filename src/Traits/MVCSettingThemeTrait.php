@@ -6,9 +6,16 @@ use MVCTheme\Core\MVCSetting;
 
 trait MVCSettingThemeTrait {
 
-    public function getVersion(): string
+    var $version = '1.0.0';
+    public $mimes = [];
+
+    public function setVersion($version)
     {
-        return wp_get_theme()->get('Version');
+        $this->version = $version;
+    }
+
+    private function getVersion() {
+        return $this->version;
     }
 
     static function errorReporting($active = false) {
@@ -62,44 +69,43 @@ trait MVCSettingThemeTrait {
         }
     }
 
+    function addMimeType($name, $value): void {
+        $this->mimes[$name] =  $value;
+    }
+
     function uploadMimes( $mimes ) {
         $mimes['svg']  = 'image/svg+xml';
+
+        foreach ($this->mimes as $name => $value) {
+            $mimes[$name]  = $value;
+        }
+
         return $mimes;
     }
 
+    function fixCustomMimeType($data, $file, $filename, $mimes, $real_mime = '') {
+        $custom_mimes = array_merge(['svg' => 'image/svg+xml'], $this->mimes);
 
-    function fixSvgMimeType( $data, $file, $filename, $mimes, $real_mime = '' ) {
-
-        if( version_compare( $GLOBALS['wp_version'], '5.1.0', '>=' ) )
-            $dosvg = in_array( $real_mime, [ 'image/svg', 'image/svg+xml' ] );
-        else
-            $dosvg = ( '.svg' === strtolower( substr($filename, -4) ) );
-
-        if( $dosvg ){
-
-            if( current_user_can('manage_options') ){
-                $data['ext']  = 'svg';
-                $data['type'] = 'image/svg+xml';
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        if (array_key_exists($ext, $custom_mimes)) {
+            if (current_user_can('manage_options')) {
+                $data['ext']  = $ext;
+                $data['type'] = $custom_mimes[$ext];
+            } else {
+                $data['ext'] = false;
+                $data['type'] = false;
             }
-            else {
-                $data['ext'] = $type_and_ext['type'] = false;
-            }
-
         }
-
         return $data;
     }
 
-    function showSvgInMediaLibrary( $response ) {
-
-        if ( $response['mime'] === 'image/svg+xml' ) {
-
-            // С выводом названия файла
+    function showCustomInMediaLibrary($response) {
+        $custom_mimes = array_merge(['svg' => 'image/svg+xml'], $this->mimes);
+        if (in_array($response['mime'], $custom_mimes)) {
             $response['image'] = [
                 'src' => $response['url'],
             ];
         }
-
         return $response;
     }
 

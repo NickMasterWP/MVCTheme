@@ -1,84 +1,65 @@
+/*
+    Form styles
+*/
 :root {
-    --red: #ff3535;
-    --green: #1f7e00;
-    --yellow: #ffd100;
     --gap-form-field: 10px;
-    --border-radius-form-el: 4px;
+    --border-radius-form-el: 3px;
     --bg-form-el: #fff;
     --border-color-form-el: #8c8f94;
     --padding-left-form-element: 10px;
     --height-form-input: 30px;
-    --margin-bottom-label-form: 3px;
+    --margin-bottom-label-form: 10px;
 }
-.mvc-color-green {
-    color: var(--green);
-}
-.mvc-color-yellow {
-    color: var(--yellow);
-}
-.mvc-color-red {
-    color: var(--red);
-}
-.mvc-color-black {
-    color: var(--black);
-}
-.mvc-form {
-    border: 1px solid #8c8f94;
-    padding: 15px;
-    background: #fff;
-    margin-top: 10px;
-}
-.mvc-fieldset {
+.b-fieldset {
     display: flex;
     flex-direction: column;
     gap: var(--gap-form-field);
 }
-.mvc-field-label {
+.b-box-field {
+
+}
+.term-group-wrap .b-box-field {
+    display: flex;
+}
+.b-field-label {
     font-weight: 300;
     font-size: 16px;
 }
-.mvc-sup-field {
+.term-group-wrap .b-field-label {
+    font-weight: 500;
+    width: 200px;
+    font-size: 14px;
+}
+.term-group-wrap .b-field {
+    padding: 0px 10px;
+}
+.b-sup-field {
     color: var(--red);
 }
-.mvc-field {
+.b-field {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-    width: 100%;
+    gap: var(--gap-form-field);
 }
-.mvc-field__align-left {
+.b-field__align-left {
     align-items: flex-start;
 }
-.mvc-field__align-center {
+.b-field__align-center {
     justify-content: center;
 }
-.mvc-field__align-right {
+.b-field__align-right {
     align-items: flex-end;
 }
-.mvc-field-row {
-    display: flex;
-    gap: 20px;
+.b-field-row {
     flex-direction: row;
-    width: 100%;
 }
-.mvc-field-row_wrap {
-    flex-wrap: wrap;
-}
-.mvc-field-grid {
-    display: grid;
-    gap: 20px;
-    width: 100%;
-    grid-template-columns: 1fr 1fr;
-}
-.mvc-field_wrap {
-    width: auto;
-}
-.mvc-field__textarea > div {
+.b-field__textarea > div {
     width: 100%;
 }
 /* form elements */
-.mvc-form-control {
+.b-form-control {
     background: var(--bg-form-el);
     border-radius: var(--border-radius-form-el);
     border: 1px solid var(--border-color-form-el);
@@ -87,62 +68,60 @@
     padding-left: var(--padding-left-form-element);
     display: flex;
     align-items: center;
-    background-color: #fff;
-    color: #2c3338;
 }
-.wp-core-ui select.mvc-form-control {
+.wp-core-ui select.b-form-control {
     width: 100%;
     max-width: 100%;
 }
-.mvc-form-control-text {
+.b-form-control-text {
     height: var(--height-form-input);
 }
-.mvc-form-control-color {
+.b-form-control-color {
     height: var(--height-form-input);
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.mvc-form-control-color input{
+.b-form-control-color input{
     border: 0px;
     padding: 0px;
     height: 100%;
     aspect-ratio: 1/1;
     border-radius: var(--border-radius-form-el);
 }
-.mvc-form-control-color input::-webkit-color-swatch {
+.b-form-control-color input::-webkit-color-swatch {
     border-radius: var(--border-radius-form-el);
 }
-.mvc-form-control-copy {
+.b-form-control-copy {
     padding-top: 5px;
     padding-bottom: 5px;
     line-height: 1.4;
 }
-.mvc-form-control-text-block {
+.b-form-control-text-block {
     padding-top: 10px;
     padding-bottom: 10px;
 }
-.mvc-form-control-copy {
+.b-form-control-copy {
     justify-content: space-between;
     align-items: flex-end;
 }
-.mvc-form-control-link {
+.b-form-control-link {
     height: var(--height-form-input);
     justify-content: space-between;
     padding-right: var(--padding-left-form-element);
 }
-.mvc-form-control-link-span {
+.b-form-control-link-span {
     max-width: 90%;
     display: block;
     overflow: hidden;
 }
-.mvc-form-control-select {
+.b-form-control-select {
     height: var(--height-form-input);
 }
-.mvc-field-label {
+.b-field-label {
     margin-bottom: var(--margin-bottom-label-form);
 }
-.mvc-field__image {
+.b-field__image {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -150,37 +129,43 @@
     flex-direction: row;
 }
 /*
-.mvc-meta-box {
+.b-meta-box {
     border: 1px solid #0003;
     padding: 20px 20px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
 }
 */
-.mvc-field-image-container {
-    max-width: 100px;
+.b-field-image-container {
     max-height: 100px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     overflow: hidden;
+    margin-top: 5px;
 }
-.mvc-field-image {
+.b-field-image {
     display: flex;
     gap: 10px;
     align-items: center;
 }
-.mvc-field-image-container img {
+.b-field-image-container img {
     max-width: 100%;
     max-height: 100%;
 }
-.mvc-field__video {
+
+.a-field-image-hide {
+    display: none;
+}
+
+
+.b-field__video {
     display: flex;
     gap: 10px;
     align-items: center;
     justify-content: flex-start;
     flex-direction: row;
 }
-.mvc-field-video-container {
+.b-field-video-container {
     max-width: 100px;
     max-height: 100px;
     display: flex;
@@ -188,46 +173,16 @@
     justify-content: flex-start;
     overflow: hidden;
 }
-.mvc-field-video {
+.b-field-video {
     display: flex;
     gap: 10px;
     align-items: center;
 }
-.mvc-field-video-container img {
+.b-field-video-container img {
     max-width: 100%;
     max-height: 100%;
 }
 
-.is-invalid {
-    border-color: var(--red) !important;
-}
-.invalid-feedback {
-    color: var(--red) !important;
-}
-
-.form__loading {
-    position: relative;
-    overflow: hidden;
-}
-.form__loading::before {
-    filter: blur(5px);
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height:  100%;
-    background: rgba(255,255,255,0.5);
-}
-
-.form__loading::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, var(--premium), transparent);
-    animation: loading 1s infinite;
-    filter: none;
+.a-field-video-hide {
+    display: none;
 }

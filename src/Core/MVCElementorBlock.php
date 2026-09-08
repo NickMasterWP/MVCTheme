@@ -12,6 +12,7 @@ class MVCElementorBlock extends \Elementor\Widget_Base {
 
     const TYPE_SWITCHER = "switcher";
     const TYPE_IMAGE = "image";
+    const TYPE_VIDEO = "video";
     const TYPE_TINY_MCE = "tiny_mce";
     const TYPE_SELECT = "select";
     const TYPE_SELECT2 = "select2";
@@ -21,6 +22,7 @@ class MVCElementorBlock extends \Elementor\Widget_Base {
     const TYPE_REPEATER = "repeater";
     const TYPE_HTML = "html";
     const TYPE_ICON = "icon";
+    const TYPE_MULTISELECT = "multiselect";
 
     public function __construct( $data = [], $args = null ) {
         $this->setupSettings();
@@ -51,21 +53,30 @@ class MVCElementorBlock extends \Elementor\Widget_Base {
     $type = \Elementor\Controls_Manager::TEXT;
     $input_type = "text";
     $options = [];
+    $setting = $field_item[4] ?? [];
     $fields = [];
     $default = [];
+    $media_types = [];
     $params_extension = [];
+    $multiselect = false;
     
     switch( $field_item[2] ) {
-        case self::TYPE_SELECT:
+      case self::TYPE_SELECT:
         $type = \Elementor\Controls_Manager::SELECT;
         $input_type = "";
-        $options = $field_item[3];
+        $options = $field_item[3] ?? [];
         break;
       case self::TYPE_SELECT2:
         $type = \Elementor\Controls_Manager::SELECT2;
         $input_type = "";
-        $options = $field_item[3];
-        break; 
+        $options = $field_item[3] ?? [];
+        break;
+      case self::TYPE_MULTISELECT:
+          $type = \Elementor\Controls_Manager::SELECT2;
+          $input_type = "";
+          $options = $field_item[3] ?? [];
+          $multiselect = true;
+          break;
       case self::TYPE_TEXTAREA:
         $type = \Elementor\Controls_Manager::TEXTAREA;
         $input_type = "textarea";
@@ -75,6 +86,14 @@ class MVCElementorBlock extends \Elementor\Widget_Base {
         $default = [
             'url' => \Elementor\Utils::get_placeholder_image_src(),
         ];
+        $media_types = ['image'];
+        break;
+      case self::TYPE_VIDEO:
+            $type = \Elementor\Controls_Manager::MEDIA;
+            $default = [
+                'url' => \Elementor\Utils::get_placeholder_image_src(),
+            ];
+          $media_types = ['video'];
         break;
       case self::TYPE_TINY_MCE:
         $type = \Elementor\Controls_Manager::WYSIWYG; 
@@ -85,8 +104,8 @@ class MVCElementorBlock extends \Elementor\Widget_Base {
       case self::TYPE_ICON:
         $type = \Elementor\Controls_Manager::ICON; 
         break;
-    case self::TYPE_COLOR:
-        $type = \Elementor\Controls_Manager::COLOR;
+      case self::TYPE_COLOR:
+        $type = \Elementor\Controls_Manager::TEXT;
         $params_extension = [
                 'selectors' => [
                     '{{WRAPPER}} .your-class' => 'color: {{VALUE}}',
@@ -102,14 +121,14 @@ class MVCElementorBlock extends \Elementor\Widget_Base {
               'default' => 'yes',
           ];
         break;
-        case self::TYPE_REPEATER:
-        $type = \Elementor\Controls_Manager::REPEATER; 
-        $repeater = new \Elementor\Repeater();
-          
-        foreach($field_item[3] as $field_repeat) {
-            $repeater = $this->add_field_elemenor($field_repeat, $repeater); 
-        }
-        $fields = $repeater->get_controls();
+      case self::TYPE_REPEATER:
+            $type = \Elementor\Controls_Manager::REPEATER;
+            $repeater = new \Elementor\Repeater();
+
+            foreach($field_item[3] as $field_repeat) {
+                $repeater = $this->add_field_elemenor($field_repeat, $repeater);
+            }
+            $fields = $repeater->get_controls();
         
         break;  
     }
@@ -119,8 +138,11 @@ class MVCElementorBlock extends \Elementor\Widget_Base {
         'type' => $type,
         'default' => $default,
         'input_type' => $input_type,
+        'media_types' => $media_types,
         'placeholder' => '',
-        'options' => $options
+        'options' => $options,
+        'setting' => $setting,
+        'multiple' => $multiselect
     ];
 
     if ($fields) {
@@ -132,7 +154,7 @@ class MVCElementorBlock extends \Elementor\Widget_Base {
 
     $element->add_control(
       $field_item[0],
-        $params
+      $params
     ); 
     
     return $element;
@@ -161,35 +183,16 @@ class MVCElementorBlock extends \Elementor\Widget_Base {
         return [];
     }
 
-    protected function render() {
-        $args = $this->get_settings_for_display();
-
-        foreach ($args as $key => $value) {
-            if (is_array($value) && empty($value)) {
-                foreach ($this->fields as $field) {
-                    if ($field[0] === $key &&
-                        in_array($field[2], [
-                            self::TYPE_TEXT,
-                            self::TYPE_TEXTAREA,
-                            self::TYPE_TINY_MCE,
-                            self::TYPE_HTML,
-                            self::TYPE_SELECT,
-                            self::TYPE_SELECT2
-                        ])) {
-                        $args[$key] = '';
-                        break;
-                    }
-                }
-            }
-        }
-
+	protected function render() {
+		$args = $this->get_settings_for_display();
         $data = $this->getData($args);
+
         if (count($data)) {
             $args = array_merge($args, $data);
         }
 
-        echo MVCView::partial($this->view_path, $args);
-    }
+        echo MVCView::partial( $this->view_path , $args);
+	}
 
 }
  

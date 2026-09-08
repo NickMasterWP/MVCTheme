@@ -2,7 +2,7 @@
 
 namespace MVCTheme\Traits;
 
-use MVCTheme\Core\MVCCustomizerRepeater;
+use MVCTheme\Classes\MVCCustomizerRepeater;
 
 trait MVCCustomizerTrait {
 
@@ -104,20 +104,7 @@ trait MVCCustomizerTrait {
         if ($val === false && isset($this->optionsCustomizer[$settingName])) {
             $val = $this->optionsCustomizer[$settingName]["default"];
         }
-
-        if ($val && isset($this->optionsCustomizer[$settingName]) && $this->optionsCustomizer[$settingName]["type"] === "repeat") {
-            $val = json_decode($val, JSON_UNESCAPED_UNICODE);
-        }
-
-        if (is_string($val)) {
-            return stripslashes($val);
-        }
-
         return $val;
-    }
-
-    public function setOption($settingName, $settingValue) : bool {
-        return set_theme_mod( "setting_" . $settingName, $settingValue );
     }
 
     public function theOption($settingName) {
@@ -144,15 +131,5 @@ trait MVCCustomizerTrait {
             return json_encode($input_decoded);
         }
         return $input;
-    }
-
-    public function getOptionStripSlashes($settingName) {
-        $val = $this->getOption($settingName);
-
-        if (is_string($val)) {
-            return stripslashes($val);
-        }
-
-        return $val;
     }
 }

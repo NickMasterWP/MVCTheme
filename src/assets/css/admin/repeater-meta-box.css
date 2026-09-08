@@ -2,5 +2,20 @@
     width: 100%;
 }
 .repeater-items td {
-    vertical-align: bottom;
+    vertical-align: top;
+    padding: 20px 10px 20px 10px;
+}
+.repeater-items tr:nth-child(2n) {
+    background: rgba(0,0,0,.03);
+}
+.form__field_repeater .add-repeater-item {
+    margin-top: 10px;
+}
+.field__field-label_repeater {
+    font-size: 18px;
+    font-weight: 600;
+}
+.form__field-row_repeater {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #c3c4c7;
 }

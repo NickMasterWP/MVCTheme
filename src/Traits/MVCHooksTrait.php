@@ -26,7 +26,7 @@ trait MVCHooksTrait {
     public function actionHooksInit() {
         foreach ($this->actionHooks as $actionName => $params) {
             $moduleFileName = $params["module"];
-            $fileAction = $this->getThemeChildFilePath("app/Controller/Hooks/Actions/" . $moduleFileName . ".php");
+            $fileAction = $this->getThemeChildFilePath("includes/controller/hooks/actions/" . $moduleFileName . ".php");
 
             if (file_exists($fileAction)) {
                 include_once $fileAction;
@@ -38,7 +38,7 @@ trait MVCHooksTrait {
     public function actionFiltersInit() {
         foreach ($this->filterHooks as $filterName => $params) {
             $moduleFileName = $params["module"];
-            $fileFilter = $this->getThemeChildFilePath("app/Controller/Hooks/Filters/" . $moduleFileName . ".php");
+            $fileFilter = $this->getThemeChildFilePath("includes/controller/hooks/filters/" . $moduleFileName . ".php");
 
             if (file_exists($fileFilter)) {
                 include_once $fileFilter;
