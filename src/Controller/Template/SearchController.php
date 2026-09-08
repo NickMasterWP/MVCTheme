@@ -1,10 +1,12 @@
 <?php
 
-class SearchController extends BaseController {
+use MVCTheme\Controller\MVCBaseController;
+
+class SearchController extends MVCBaseController {
 	
 	function indexAction() {
-		$this->set_title("Поиск");
-		$this->set_description("Поиск");
+		$this->setTitle("Поиск");
+		$this->setDescription("Поиск");
 	}
 	 
 }

@@ -9,14 +9,14 @@
 use MVCTheme\MVCTheme;
 
 ?>
-<div class="form__field-row form__field-row_repeater form__field-row_<?= $name;?>">
+<div class="form__field-row form__field-row_<?= $name;?>">
     <?php if (isset($label) && $label) { ?>
-        <div class="form__field-label field__field-label_<?= $name;?>">
-            <label for="<?= $name;?>" class="field__field-label_repeater"><?= $label;?></label>
+        <div class="mvc-field_repeater-label form__field-label field__field-label_<?= $name;?>">
+            <label for="<?= $name;?>"><?= $label;?></label>
         </div>
     <?php } ?>
-    <div class="form__field form__field_repeater">
-        <table class="repeater-items" cellspacing="0" >
+    <div class="mvc-field_repeater form__field form__field_repeater">
+        <table class="repeater-items">
             <?php if (!empty($value)) { ?>
                 <?php foreach ($value as $index => $item) { ?>
                     <tr>
@@ -33,14 +33,7 @@ use MVCTheme\MVCTheme;
                             </td>
                         <?php } ?>
                         <td>
-                            <div class="b-box-field b-box-field-delete">
-                                <div class="b-field-label  b-field-label-delete">
-                                    <label for="">&nbsp;</label>
-                                </div>
-                                <div class="b-field b-field__input ">
-                                    <button type="button" class="button remove-repeater-item">Удалить</button>
-                                </div>
-                            </div>
+                            <button type="button" class="button remove-repeater-item">Удалить</button>
                         </td>
                     </tr>
                 <?php } ?>
@@ -55,19 +48,13 @@ use MVCTheme\MVCTheme;
                             "type" => $field["type"],
                             "name" => $name . '[__index__][' . $field["name"] . ']',
                             "title" => $field["title"],
+                            "options" => $field["options"] ?? [],
                             "value" => ""
                         ], ""); ?>
                     </td>
                 <?php } ?>
                 <td>
-                    <div class="b-box-field b-box-field-delete">
-                        <div class="b-field-label  b-field-label-delete">
-                            <label for="">&nbsp;</label>
-                        </div>
-                        <div class="b-field b-field__input ">
-                            <button type="button" class="button remove-repeater-item">Удалить</button>
-                        </div>
-                    </div>
+                    <button type="button" class="button remove-repeater-item">Удалить</button>
                 </td>
             </tr>
         </table>

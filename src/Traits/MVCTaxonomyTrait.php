@@ -6,24 +6,21 @@ trait MVCTaxonomyTrait {
 
     private $taxonomies = [];
 
-    public function addTaxonomies($taxonomyName, $title, $postTypes, $hierarchical = false, $public = true) {
+    public function addTaxonomies($taxonomyName, $title, $postTypes, $hierarchical = false) {
         $this->taxonomies[$taxonomyName] = [
             "title" => $title,
             "post_types" => $postTypes,
-            "hierarchical" => $hierarchical,
-            "public" => $public
+            "hierarchical" => $hierarchical
         ];
     }
 
     public function registerTaxonomies() {
-
         foreach ($this->taxonomies as $taxonomyName => $options) {
-            $this->registerTaxonomy($taxonomyName, $options["title"], $options["post_types"], $options["hierarchical"], $options["public"]);
+            $this->registerTaxonomy($taxonomyName, $options["title"], $options["post_types"], $options["hierarchical"]);
         }
     }
 
-    public function registerTaxonomy($name, $title, $posttypes, $hierarchical, $public) {
-
+    public function registerTaxonomy($name, $title, $posttypes, $hierarchical) {
         register_taxonomy($name, $posttypes, [
             'label' => $title,
             'labels' => [
@@ -42,8 +39,7 @@ trait MVCTaxonomyTrait {
                 'back_to_items'     => __('← Назад', 'mvctheme'),
             ],
             'description'   => '',
-            'public'        => $public,
-            'show_ui'       => true,
+            'public'        => true,
             'hierarchical'  => $hierarchical,
             'rewrite'       => true,
             'capabilities'  => [],

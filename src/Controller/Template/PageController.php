@@ -1,6 +1,6 @@
 <?php
 
-use MVCTheme\Controller\Base\MVCBaseController;
+use MVCTheme\Controller\MVCBaseController;
 
 class PageController extends MVCBaseController {
 	

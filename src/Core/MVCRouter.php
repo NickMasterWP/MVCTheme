@@ -26,9 +26,11 @@ class MVCRouter {
 
         $MVCTheme = MVCTheme::getInstance();
 
+
 		if ( is_front_page() ) {
 			$controller = "index";  
 		} else if (  is_page() ) {
+
             $controller = "page";
         } else if ( is_singular() ) {
             $controllerSingle = null;
@@ -43,35 +45,32 @@ class MVCRouter {
             $controller = "author";
         } else if ( is_search() ) {
 			$controller = "search";  
-		} else if ( is_archive() || is_home() ) {
+		} else if ( is_post_type_archive() ) {
+
+            $postType = get_query_var('post_type');
+
+            if (is_array($postType)) {
+                $postType = $postType[0];
+            }
+
+            $registeredTypes = $MVCTheme->getPostTypes();
+
+            if ($postType && isset($registeredTypes[$postType])) {
+                $controller = ucfirst($postType) . "Archive";
+            } else {
+                $controller = "archive";
+            }
+        } else if ( is_archive() || is_home() ) {
             $controller = "archive";
         } else if ( is_404() ) {
 			$controller = "404";  
 		}
 
-        $requestUri = $_SERVER["REQUEST_URI"];
-
-        foreach ($MVCTheme->urlHandlers() as $itemUrl) {
-            if (
-                ( $itemUrl["isStrict"] && $requestUri == $itemUrl["url"] ) ||
-                ( !$itemUrl["isStrict"] && strpos( $requestUri, $itemUrl["url"]) === 0   )
-            ) {
-
-                $handler = $itemUrl["handler"];
-                if (isset($handler[0]) && isset($handler[1]) ) {
-                    $controller = $handler[0];
-                    $action = $handler[1];
-                }
-
-                $viewPath = $itemUrl["viewPath"] ?? null;
-            }
-        }
-
 		$this->controller = $controller;
 		$this->action = $action;
 		$this->params = $params;
         $this->viewPath = $viewPath;
-		
+
 		$this->pathController = "Controller/Template/";
 	}
 

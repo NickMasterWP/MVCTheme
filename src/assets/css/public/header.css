@@ -4,11 +4,17 @@
     --silver: #ACACAC;
     --silver-light: #F9F9F9;
     --green: #008B27;
+    -
     --orange: #FB8F39;
     --blue: #1175E4;
     --black: #333333;
     --error: var(--red);
+
     --gold: #FFE554;
+    --gold-hover: #AA8630;
+    --gold-focus: #8C6812;
+    --gold-disabled: #E3E1DC;
+
     --premium: #0457B4;
 
     --bg-header:var(--white);
@@ -237,7 +243,7 @@ h1, h2, h3, h4, h5, h6 {
 /*================FOOTER==================*/
 .footer {
     background-color: var(--bg-footer);
-    padding: 10px 0px;
+    padding: var(--distance-min) 0px ;
     color: var(--white);
 }
 .footer-container {
@@ -492,7 +498,7 @@ select option[disabled][hidden] {
 .form__loading::after {
     content: '';
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 4px;

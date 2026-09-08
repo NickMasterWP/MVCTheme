@@ -1,6 +1,8 @@
 <?php
 
-class SingleController extends BaseController {
+use MVCTheme\Controller\MVCBaseController;
+
+class SingleController extends MVCBaseController {
 	
 	function indexAction() {
 	}

@@ -106,6 +106,7 @@ class  MVCAjaxController
             $result["msg"] = $e->getMessage();
         }
 
+        header('Content-Type: application/json; charset=utf-8');
         echo json_encode($result, JSON_UNESCAPED_UNICODE);
         die(0);
     }

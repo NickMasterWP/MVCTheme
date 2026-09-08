@@ -4,7 +4,7 @@ function media_upload(button_class) {
     'use strict';
     jQuery('body').on('click', button_class, function () {
         var button_id = '#' + jQuery(this).attr('id');
-        var display_field = jQuery(this).parent().children('input:text');
+        var display_field = jQuery(this).prev('input:text');
         var _custom_media = true;
 
         wp.media.editor.send.attachment = function (props, attachment) {

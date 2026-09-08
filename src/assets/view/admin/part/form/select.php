@@ -7,15 +7,15 @@
  * @var array $options
  */
 ?>
-<div class="b-box-field">
-    <div class="b-field-label">
+<div class="mvc-box-field">
+    <div class="mvc-field-label">
         <label for="<?= $name;?>"><?= $label;?></label>
         <?php if (isset($required) && $required ) {?>
-        <span class="b-sup-field">*</span>
+        <span class="mvc-sup-field">*</span>
         <?php } ?>
     </div>
-    <div class="b-field b-field__select ">
-        <select class="b-form-control" name="<?= $name;?>">
+    <div class="mvc-field b-field__select ">
+        <select class="mvc-form-control" name="<?= $name;?>">
             <?php foreach ($options as $key => $title) {?>
                 <option value="<?= $key;?>" <?= $key == $value ? "selected" : ""?> ><?= $title;?></option>
             <?php } ?>

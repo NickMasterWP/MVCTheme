@@ -1,1 +1,1 @@
-<div class="b-fieldset <?= isset($args["class"]) ? $args["class"] : "";?>">
+<div class="mvc-fieldset <?= isset($args["class"]) ? $args["class"] : "";?>">

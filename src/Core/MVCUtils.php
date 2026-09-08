@@ -45,18 +45,27 @@ class MVCUtils {
 	static function bd_time() {
 		return date_i18n("Y-m-d H:i:s",  true );
 	}
+    static function bd_date() {
+        return date_i18n("Y-m-d",  true );
+    }
+
 	static function bd_time_value($time) {
 		return date_i18n("Y-m-d H:i:s",  $time );
 	}
 
     static function bdAddPeriodToDate($date, $period) {
         if ($date === 'now') {
-            $date = current_time('mysql');
+            $date = self::bd_time();
         }
 
-        $dateTime = new DateTime($date);
-        $dateTime->modify($period);
-        return date_i18n("Y-m-d H:i:s", $dateTime->getTimestamp());
+        try {
+            $dateTime = new \DateTime($date);
+            $dateTime->modify($period);
+            return date_i18n("Y-m-d H:i:s", $dateTime->getTimestamp());
+        } catch (\Exception $e) {
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
 
 	static function get_padej($val, $args = array(" часов"," час"," часа")) {
@@ -114,39 +123,6 @@ class MVCUtils {
         }
 
         return wpautop($text);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public static function getTags($taxonomy, $isEmpty = false): array {
-        global $wpdb;
-
-        $sql = "
-            SELECT t.term_id, t.name
-            FROM {$wpdb->terms} t
-            INNER JOIN {$wpdb->term_taxonomy} tt ON t.term_id = tt.term_id
-            WHERE tt.taxonomy = %s
-        ";
-
-        $results = $wpdb->get_results($wpdb->prepare($sql, $taxonomy));
-
-        $tags = [];
-        if ($results) {
-            foreach ($results as $row) {
-                $tags[$row->term_id] = $row->name;
-            }
-        }
-
-        if ($isEmpty) {
-            $tags = ["" => "-"] + $tags;
-        }
-
-        return $tags;
-    }
-
-    public static function getMediaFileURL($mediaFileId) {
-        return wp_get_attachment_url($mediaFileId);
     }
 
 }

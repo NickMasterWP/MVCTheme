@@ -6,6 +6,7 @@ trait MVCAssetsTrait {
     private $styles = [];
     private $scripts = [];
     private $adminStyle = [];
+    private $adminScript = [];
 
     function getThemeChildFilePath($filePath) {
         return get_theme_file_path($filePath );
@@ -24,9 +25,10 @@ trait MVCAssetsTrait {
     }
 
     function getMVCThemeFileURL($filePath) {
-        $vendorPath = get_template_directory() . '/includes/vendor/masterwp/mvctheme/src/' . $filePath;
+        $vendorPath = get_theme_file_path() . '/includes/vendor/masterwp/mvctheme/src/' . $filePath;
+
         if (file_exists($vendorPath)) {
-            return get_template_directory_uri() . '/includes/vendor/masterwp/mvctheme/src/' . $filePath;
+            return get_theme_file_uri() . '/includes/vendor/masterwp/mvctheme/src/' . $filePath;
         }
 
         return get_parent_theme_file_uri($filePath);
@@ -44,17 +46,25 @@ trait MVCAssetsTrait {
         $this->adminStyle[$name] = $src;
     }
 
-    public function adminEnqueueScripts() {
-        wp_enqueue_style('gutenberg-css', $this->getMVCThemeFileURL('assets/css/admin/gutenberg.css'), [], $this->getVersion());
-        wp_enqueue_style('style-admin-css', $this->getMVCThemeFileURL('assets/css/admin/style.css'), [], $this->getVersion());
+    public function addScriptFileAdmin($name, $src) {
+        $this->adminScript[$name] = $src;
+    }
 
+    public function adminEnqueueScripts() {
+        wp_enqueue_script('form-ajax', $this->getMVCThemeFileURL('assets/js/lib/formajax.js'), ['jquery'], $this->getVersion(), true);
+        wp_enqueue_script('mvc-loader', $this->getMVCThemeFileURL('assets/js/lib/mvc-loader.js'), [], $this->getVersion(), true);
+        wp_enqueue_style('style-admin-css', $this->getMVCThemeFileURL('assets/css/admin/style.css'), [], $this->getVersion());
         wp_enqueue_script('repeater-meta-box', $this->getMVCThemeFileURL('assets/js/admin/repeater-meta-box.js'), [], $this->getVersion(), true);
         wp_enqueue_style('repeater-meta-box-css', $this->getMVCThemeFileURL('assets/css/admin/repeater-meta-box.css'), [], $this->getVersion());
-
 
         foreach ($this->adminStyle as $name => $src) {
             wp_enqueue_style($name, $src, [], $this->getVersion());
         }
+        foreach ($this->adminScript as $name => $src) {
+            wp_enqueue_script($name, $src, [], $this->getVersion());
+        }
+
+        wp_localize_script('jquery', 'mvc_setting', ['mvc_ajaxurl' => admin_url('admin-ajax.php')]);
     }
 
     public function frontEnqueueScripts() {
@@ -67,9 +77,7 @@ trait MVCAssetsTrait {
         remove_action('wp_head', 'wp_oembed_add_discovery_links');
         remove_action('wp_head', 'wp_oembed_add_host_js');
 
-        wp_enqueue_script('fancybox', $this->getMVCThemeFileURL('assets/js/lib/jquery.fancybox.min.js'), ['jquery-core'], $this->getVersion(), true);
-        wp_enqueue_script('formajax-theme', $this->getMVCThemeFileURL('assets/js/lib/formajax.js'), [], $this->getVersion(), true);
-        wp_enqueue_script('main-theme', $this->getMVCThemeFileURL('assets/js/lib/mvc-loader.js'), ['jquery'], $this->getVersion(), true);
+        wp_enqueue_script('jquery');
 
         foreach ($this->styles as $name => $path) {
             wp_enqueue_style($name, $path, [], $this->getVersion());
@@ -78,10 +86,11 @@ trait MVCAssetsTrait {
             wp_enqueue_script($name, $path, [], $this->getVersion());
         }
 
-        wp_localize_script('jquery', 'mvc_setting', [
-            'mvc_ajaxurl' => admin_url('admin-ajax.php'),
-            'mvc_domain' => home_url(),
-            'mvc_theme' => $this->getThemeChildFileURL("")
-        ]);
+        wp_localize_script('jquery', 'mvc_setting', ['mvc_ajaxurl' => admin_url('admin-ajax.php')]);
+    }
+
+    public function getUrl($path) : string
+    {
+        return home_url($path);
     }
 }

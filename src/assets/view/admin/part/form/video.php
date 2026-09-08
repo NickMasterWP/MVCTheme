@@ -1,16 +1,16 @@
-<div class="b-box-field">
-    <div class="b-field-label">
+<div class="mvc-box-field">
+    <div class="mvc-field-label">
         <label for="<?= $args["name"];?>"><?= $args["label"];?></label>
         <?php if (isset($args["required"]) && $args["required"] ) {?>
-            <span class="b-sup-field">*</span>
+            <span class="mvc-sup-field">*</span>
         <?php } ?>
     </div>
-    <div class="b-field b-field__video ">
+    <div class="mvc-field b-field__video ">
         <?php
             $video_url = $args["value"] ? wp_get_attachment_url($args["value"]) : '';
         ?>
-        <div class="b-field-video <?= $args["value"] == "" ? "a-field-video-hide" : "";?>  js-mvc-video-<?= $args["name"];?>">
-            <div class="b-field-video-container">
+        <div class="mvc-field-video <?= $args["value"] == "" ? "a-field-video-hide" : "";?>  js-mvc-video-<?= $args["name"];?>">
+            <div class="mvc-field-video-container">
                 <video width="100%" controls>
                     <source src="<?php echo esc_url($video_url); ?>" type="video/mp4" id="custom_video_preview_<?= $args["name"];?>">
                 </video>
@@ -18,7 +18,7 @@
             <input type="hidden" name="<?= $args["name"];?>" value="<?= $args["value"];?>" id="custom_video_<?= $args["name"];?>">
             <a href="#" class="custom_remove_video_button button js-mvc-remove-button-<?= $args["name"];?>">Remove Video</a>
         </div>
-        <div class="b-field-actions">
+        <div class="mvc-field-actions">
             <a href="#" class="custom_upload_video_button button js-mvc-upload-button-<?= $args["name"];?>">Upload Video</a>
         </div>
     </div>

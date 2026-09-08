@@ -1,10 +1,12 @@
 <?php
 
-class ArchiveController extends BaseController {
+use MVCTheme\Controller\MVCBaseController;
+
+class ArchiveController extends MVCBaseController {
 	
 	function indexAction() {
-		$this->set_title("Главная");
-		$this->set_description("Главная описание"); 
+		$this->setTitle("Главная");
+		$this->setDescription("Главная описание");
 	}
 	 
 }

@@ -173,7 +173,7 @@ trait MVCMetaBoxesTrait {
                         }
                         $value[] = $row;
                     }
-                } elseif ($field["type"] !== "tinymce") {
+                } elseif ($field["type"] !== "tinymce" && $field["type"] !== "textarea") {
                     $value = sanitize_text_field($_POST[$name]);
                 } else {
                     $value = $_POST[$name];

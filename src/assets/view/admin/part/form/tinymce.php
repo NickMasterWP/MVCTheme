@@ -1,11 +1,11 @@
-<div class="b-box-field b-box-field-<?= $name;?>">
-    <div class="b-field-label  b-field-label-{{name}}">
+<div class="mvc-box-field b-box-field-<?= $name;?>">
+    <div class="mvc-field-label  b-field-label-{{name}}">
         <label for="<?= $name;?>"><?= $label;?></label>
         <?php if  (isset($required) && $required ) {?>
-            <span class="b-sup-field">*</span>
+            <span class="mvc-sup-field">*</span>
         <?php } ?>
     </div>
-    <div class="b-field b-field__textarea b-field__align-left ">
+    <div class="mvc-field b-field__textarea b-field__align-left ">
         <?php
         wp_editor(
             isset($value) ? $value : "",

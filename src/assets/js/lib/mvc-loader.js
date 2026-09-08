@@ -9,6 +9,21 @@
     }
 
 
+    window.ajax_form_send = function(object) {
+        const formAjax = new FormAjax($(object).data("action"));
+
+
+        $(object)
+            .data("params")
+            .split("&")
+            .forEach(item => {
+                const [param, value] = item.split("=");
+                formAjax.add_param(param, value);
+            });
+
+        formAjax.send();
+    }
+
     window.ajax_html = function(object) {
 
         let url = mvc_setting.mvc_ajaxurl;
@@ -218,6 +233,10 @@
 
     $(document).bind("mvc_reload_event", function($event, parent) {
 
+        $(".js-click-ajax", parent).click(function(e) {
+            ajax_form_send(this);
+        });
+
         $(".js-click-ajax-html", parent).click(function(e) {
             ajax_html(this);
         });
@@ -225,6 +244,8 @@
         $(".js-load-ajax-html", parent).each(function(e) {
             ajax_html(this);
         });
+
+
 
     });
 

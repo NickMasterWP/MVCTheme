@@ -3,7 +3,11 @@
  * @var bool $hasAddButton
  * @var bool $hasSearch
  * @var bool $hasFilter
- */?>
+ * @var string $beforeTable
+ * @var string $afterTable
+ */
+
+use MVCTheme\Core\MVCView; ?>
 <div class="wrap">
     <h1 class="wp-heading-inline"><?= $table->title() ?? "" ?></h1>
     <?php if ($hasAddButton ) {?>
@@ -11,7 +15,11 @@
     <?php } ?>
 
     <?php if ($hasFilter) { ?>
-        <?= View::admin("list-table/filter", ["table" => $table]);?>
+        <?= MVCView::admin("list-table/filter", ["table" => $table]);?>
+    <?php } ?>
+
+    <?php if (isset($beforeTable)) { ?>
+        <?= $beforeTable;?>
     <?php } ?>
 
     <form method="post">
@@ -23,4 +31,8 @@
         $table->display();
         ?>
     </form>
+
+    <?php if (isset($afterTable)) { ?>
+        <?= $afterTable;?>
+    <?php } ?>
 </div>
