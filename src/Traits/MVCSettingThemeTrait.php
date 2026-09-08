@@ -6,9 +6,25 @@ use MVCTheme\Core\MVCSetting;
 
 trait MVCSettingThemeTrait {
 
+    var $version = '1.0.0';
+    public $mimes = [];
+
     public function getVersion(): string
     {
         return wp_get_theme()->get('Version');
+    }
+
+    public function setVersion($version)
+    {
+        $this->version = $version;
+    }
+
+
+    static function errorReporting($active = false) {
+        if ($active) {
+            error_reporting(E_ALL);
+            ini_set('display_errors', 1);
+        }
     }
 
     static function setErrorReporting($active = false) {
@@ -60,6 +76,10 @@ trait MVCSettingThemeTrait {
                 die();
             }
         }
+    }
+
+    public function addMimeType($name, $value): void {
+        $this->mimes[$name] =  $value;
     }
 
     function uploadMimes( $mimes ) {
